@@ -1,1 +1,1 @@
-# Pokemon-Battle-Simulator-C-
+# Pokemon-Battle-Simulator-C#
