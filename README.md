@@ -104,4 +104,4 @@ This project is a student-built application for learning purposes and demonstrat
 
 ## 👤 Author
 
-Luka Nergadze
+Luka Nergadze , Papuna Gorgodze
