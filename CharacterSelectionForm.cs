@@ -16,7 +16,7 @@ namespace PokemonBattleSimulatorGUI
         public CharacterSelectionForm()
         {
             Text = "Choose Your Pokemon";
-            Size = new Size(800, 500);
+            Size = new Size(900, 600);
             StartPosition = FormStartPosition.CenterScreen;
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
