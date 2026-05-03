@@ -258,7 +258,35 @@ namespace PokemonBattleSimulatorGUI
                 btnHeal.Enabled = enabled;
             }
         }
-    
+
+        private async void BtnHeal_Click(object sender, EventArgs e)
+        {
+            if (hasHealed)
+            {
+                MessageBox.Show("You can only heal once per battle.");
+                return;
+            }
+
+            hasHealed = true;
+
+            player.CurrentHP += 25;
+
+            if (player.CurrentHP > player.MaxHP)
+            {
+                player.CurrentHP = player.MaxHP;
+            }
+
+            AddLog(player.Name + " healed for 25 HP!");
+            UpdateUI();
+
+            SetAttackButtonsEnabled(false);
+            btnHeal.Enabled = false;
+
+            AddLog(enemy.Name + " is preparing an attack...");
+            await Task.Delay(2000);
+
+            EnemyTurn();
+        }
 
         private async void BtnLightAttack_Click(object sender, EventArgs e)
         {
@@ -351,34 +379,7 @@ namespace PokemonBattleSimulatorGUI
             EnemyTurn();
         }
 
-        private async void BtnHeal_Click(object sender, EventArgs e)
-        {
-            if (hasHealed)
-            {
-                MessageBox.Show("You can only heal once per battle.");
-                return;
-            }
-
-            hasHealed = true;
-
-            player.CurrentHP += 25;
-
-            if (player.CurrentHP > player.MaxHP)
-            {
-                player.CurrentHP = player.MaxHP;
-            }
-
-            AddLog(player.Name + " healed for 25 HP!");
-            UpdateUI();
-
-            SetAttackButtonsEnabled(false);
-            btnHeal.Enabled = false;
-
-            AddLog(enemy.Name + " is preparing an attack...");
-            await Task.Delay(2000);
-
-            EnemyTurn();
-        }
+      
         private void EnemyTurn()
         {
             string[] attackOptions = { "Light", "Medium", "Heavy" };
