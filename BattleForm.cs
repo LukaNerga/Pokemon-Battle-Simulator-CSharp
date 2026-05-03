@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
@@ -20,9 +20,13 @@ namespace PokemonBattleSimulatorGUI
         private readonly Button btnHeavyAttack;
         private readonly Button btnSave;
         private readonly Button btnHeal;
+        private readonly Button btnQuit;
+        private readonly Button btnBackSelection;
+        private readonly Button btnBackMenu;
         private bool hasHealed;
         private PictureBox picPlayer;
         private PictureBox picEnemy;
+
 
         public BattleForm()
         {
@@ -158,12 +162,38 @@ namespace PokemonBattleSimulatorGUI
                 Location = new Point(680, 530),
                 Font = new Font("Arial", 12, FontStyle.Bold)
             };
+            btnBackMenu = new Button()
+            {
+                Text = "Main Menu",
+                Size = new Size(100, 35),
+                Location = new Point(20, 20),
+                Font = new Font("Arial", 9, FontStyle.Bold)
+            };
+            btnBackSelection = new Button()
+            {
+                Text = "Selection",
+                Size = new Size(100, 35),
+                Location = new Point(130, 20),
+                Font = new Font("Arial", 9, FontStyle.Bold)
+            };
+
+            btnQuit = new Button()
+            {
+                Text = "Quit",
+                Size = new Size(100, 35),
+                Location = new Point(760, 20),
+                Font = new Font("Arial", 9, FontStyle.Bold)
+            };
+            
 
             btnLightAttack.Click += BtnLightAttack_Click;
             btnMediumAttack.Click += BtnMediumAttack_Click;
             btnHeavyAttack.Click += BtnHeavyAttack_Click;
             btnHeal.Click += BtnHeal_Click;
             btnSave.Click += BtnSave_Click;
+            btnBackMenu.Click += BtnBackMenu_Click;
+            btnBackSelection.Click += BtnBackSelection_Click;
+            btnQuit.Click += BtnQuit_Click;
 
             Controls.Add(lblTitle);
             Controls.Add(picPlayer);
@@ -178,6 +208,9 @@ namespace PokemonBattleSimulatorGUI
             Controls.Add(btnHeavyAttack);
             Controls.Add(btnHeal);
             Controls.Add(btnSave);
+            Controls.Add(btnBackMenu);
+            Controls.Add(btnBackSelection);
+            Controls.Add(btnQuit);
 
             UpdateUI();
             LoadBattleImages();
@@ -247,7 +280,27 @@ namespace PokemonBattleSimulatorGUI
             SaveManager.SaveAuto();
             MessageBox.Show("Game saved.");
         }
+        private void BtnBackMenu_Click(object sender, EventArgs e)
+        {
+            GameManager.StartNewGame();
+            MainMenuForm menu = new MainMenuForm();
+            menu.Show();
+            Close();
+        }
 
+        private void BtnBackSelection_Click(object sender, EventArgs e)
+        {
+            GameManager.StartNewGame();
+            CharacterSelectionForm selectionForm = new CharacterSelectionForm();
+            selectionForm.Show();
+            Close();
+        }
+
+        private void BtnQuit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+       
         private async Task PlayerAttack(string attackType)
         {
             SetAttackButtonsEnabled(false);
