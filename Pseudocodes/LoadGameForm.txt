@@ -1,1 +1,36 @@
+CLASS LoadGameForm
 
+WHEN form starts:
+    set up load game window
+    create title
+    build save slots
+
+FUNCTION BuildSlots:
+    get all saves
+
+    for slots 1 to 3:
+        check if save exists for this slot
+        create slot box
+
+        if slot is empty:
+            show "Empty"
+            disable Load button
+        else:
+            show Pokemon name, HP, and level
+            enable Load button
+
+        add slot box to screen
+
+FUNCTION LoadSelectedSlot:
+    try to load selected slot
+
+    if load works:
+        open battle screen
+        hide main menu
+        close load window
+    else:
+        show error message
+
+FUNCTION CloseOpenMainMenu:
+    find main menu form
+    hide it
