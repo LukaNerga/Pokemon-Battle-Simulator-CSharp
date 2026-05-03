@@ -1,1 +1,35 @@
+CLASS CharacterSelectionForm
 
+WHEN form starts:
+    set up selection window
+    load background image
+
+    create title
+    create Pokemon list
+    create Pokemon image box
+    create details label
+    create Start Battle button
+
+    get all Pokemon from PokemonFactory
+    add Pokemon names to the list
+
+WHEN Pokemon is selected:
+    get selected Pokemon
+    show its name, HP, attack, and type
+    load its image
+
+WHEN Start Battle is clicked:
+    if no Pokemon selected:
+        show warning message
+    else:
+        save selected Pokemon as player Pokemon
+        set level to 1
+        open battle screen
+        hide selection screen
+
+FUNCTION LoadPokemonImage:
+    create image path from Pokemon name
+    if image exists:
+        show image
+    else:
+        clear image
