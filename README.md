@@ -1,25 +1,25 @@
-# 🎮 Pokemon Type Battle Simulator (C# WinForms)
+# Pokemon Type Battle Simulator (C# WinForms)
 
 A simple turn-based Pokémon battle game built using **C# and Windows Forms**.  
 Choose your Pokémon, battle enemies with different types, and progress through levels to defeat the final boss.
 
 ---
 
-## 📌 Features
+## Features
 
-- 🎯 Choose from 10 different Pokémon
-- ⚔️ Turn-based battle system (Light / Medium / Heavy attacks)
-- 🔥 Type effectiveness system (Fire, Water, Grass, Electric, etc.)
-- ❤️ Heal option (once per battle)
-- 📊 HP bars and battle log
-- 💾 Manual save system with 3 rotating slots
-- 🔄 Continue last saved game
-- 🧾 Rules screen
-- 🏆 Win/Lose result screen
+- Choose from 10 different Pokémon
+- Turn-based battle system (Light / Medium / Heavy attacks)
+- Type effectiveness system (Fire, Water, Grass, Electric, etc.)
+- Heal option (once per battle)
+- HP bars and battle log
+- Manual save system with 3 rotating slots
+- Continue last saved game
+- Rules screen
+- Win/Lose result screen
 
 ---
 
-## 🎮 How to Play
+## How to Play
 
 1. Click **Play New** to start a new game
 2. Select a Pokémon
@@ -37,7 +37,7 @@ Choose your Pokémon, battle enemies with different types, and progress through 
 
 ---
 
-## 💾 Save System
+## Save System
 
 - Game saves manually using **Save Game** button
 - Uses **3 rotating slots**:
@@ -49,7 +49,7 @@ Choose your Pokémon, battle enemies with different types, and progress through 
 
 ---
 
-## 🧠 Game Mechanics
+## Game Mechanics
 
 ### Type Advantage
 
@@ -74,7 +74,7 @@ Choose your Pokémon, battle enemies with different types, and progress through 
 
 ---
 
-## 🗂️ Project Structure
+## Project Structure
 Forms/ → UI screens (menus, battle, selection)
 GameLogic/ → battle system and game manager
 Models/ → data classes (Pokemon, SaveData)
@@ -83,7 +83,7 @@ SaveSystem/ → saving and loading logic
 
 ---
 
-## 🛠️ Technologies Used
+## Technologies Used
 
 - C#
 - .NET WinForms
@@ -91,7 +91,7 @@ SaveSystem/ → saving and loading logic
 
 ---
 
-## ▶️ How to Run
+## How to Run
 
 1. Open the project in **Visual Studio**
 2. Build the solution
@@ -99,7 +99,7 @@ SaveSystem/ → saving and loading logic
 
 ---
 
-## 🎮 Game Screens
+## Game Screens
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/d233c781-3c3b-4941-b0e8-356d9a38ff25" width="400"/>
@@ -117,7 +117,7 @@ SaveSystem/ → saving and loading logic
 
 ---
 
-## 📚 Notes
+## Notes
 
 - This project was created for learning purposes (Compe-361 Final Project)
 - Focused on object-oriented design and UI development
