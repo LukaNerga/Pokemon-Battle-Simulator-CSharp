@@ -78,6 +78,7 @@ namespace PokemonBattleSimulatorGUI
             listPokemon.SelectedIndexChanged += ListPokemon_SelectedIndexChanged;
 
             allPokemon = PokemonFactory.GetAllPokemon();
+            allPokemon.Sort();
 
             foreach (Pokemon pokemon in allPokemon)
             {
