@@ -23,6 +23,7 @@ namespace PokemonBattleSimulatorGUI
         private readonly Button btnQuit;
         private readonly Button btnBackSelection;
         private readonly Button btnBackMenu;
+        private readonly Button btnCheatWin;
         private bool hasHealed;
         private PictureBox picPlayer;
         private PictureBox picEnemy;
@@ -184,7 +185,14 @@ namespace PokemonBattleSimulatorGUI
                 Location = new Point(760, 20),
                 Font = new Font("Arial", 9, FontStyle.Bold)
             };
-
+            
+            btnCheatWin = new Button()
+            {
+                Text = "Cheat Win",
+                Size = new Size(100, 35),
+                Location = new Point(650, 20),
+                Font = new Font("Arial", 9, FontStyle.Bold)
+            };
 
             btnLightAttack.Click += BtnLightAttack_Click;
             btnMediumAttack.Click += BtnMediumAttack_Click;
@@ -194,6 +202,7 @@ namespace PokemonBattleSimulatorGUI
             btnBackMenu.Click += BtnBackMenu_Click;
             btnBackSelection.Click += BtnBackSelection_Click;
             btnQuit.Click += BtnQuit_Click;
+            btnCheatWin.Click += BtnCheatWin_Click;
 
             Controls.Add(lblTitle);
             Controls.Add(picPlayer);
@@ -211,6 +220,7 @@ namespace PokemonBattleSimulatorGUI
             Controls.Add(btnBackMenu);
             Controls.Add(btnBackSelection);
             Controls.Add(btnQuit);
+            Controls.Add(btnCheatWin);
 
             UpdateUI();
             LoadBattleImages();
@@ -299,6 +309,17 @@ namespace PokemonBattleSimulatorGUI
         private void BtnQuit_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void BtnCheatWin_Click(object sender, EventArgs e)
+        {
+            enemy.CurrentHP = 0;
+            UpdateUI();
+
+            AddLog("CHEAT USED: Enemy HP set to 0.");
+            AddLog(enemy.Name + " fainted!");
+
+            HandleWin();
         }
 
         private async Task PlayerAttack(string attackType)
@@ -455,17 +476,8 @@ namespace PokemonBattleSimulatorGUI
 
         private void UpdateUI()
         {
-            lblPlayer.Text =
-                "Player Pokemon: " + player.Name + "\n" +
-                "Type: " + player.Type + "\n" +
-                "HP: " + player.CurrentHP + "/" + player.MaxHP + "\n" +
-                "Attack: " + player.Attack;
-
-            lblEnemy.Text =
-                "Enemy Pokemon: " + enemy.Name + "\n" +
-                "Type: " + enemy.Type + "\n" +
-                "HP: " + enemy.CurrentHP + "/" + enemy.MaxHP + "\n" +
-                "Attack: " + enemy.Attack;
+            lblPlayer.Text = player.GetInfo();
+            lblEnemy.Text = enemy.GetInfo();
 
             playerBar.Value = Math.Max(0, Math.Min(player.CurrentHP, playerBar.Maximum));
             enemyBar.Value = Math.Max(0, Math.Min(enemy.CurrentHP, enemyBar.Maximum));
