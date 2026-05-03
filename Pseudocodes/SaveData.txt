@@ -1,1 +1,6 @@
+CLASS SaveData
 
+VARIABLE SlotNumber
+VARIABLE SaveTime
+VARIABLE CurrentLevel
+VARIABLE PlayerPokemon
