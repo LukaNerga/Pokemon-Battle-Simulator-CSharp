@@ -22,7 +22,6 @@ namespace PokemonBattleSimulatorGUI
             MaximizeBox = false;
 
             string bgPath = Path.Combine(Application.StartupPath, "SelectionImages", "select_bg.png");
-
             if (File.Exists(bgPath))
             {
                 BackgroundImage = Image.FromFile(bgPath);
@@ -47,6 +46,26 @@ namespace PokemonBattleSimulatorGUI
                 Location = new Point(100, 120),
                 Font = new Font("Arial", 12)
             };
+
+            // --- Sort by Damage button ---
+            Button btnSortDamage = new Button
+            {
+                Text = "Sort by Damage",
+                Size = new Size(120, 25),
+                Location = new Point(100, 378),
+                Font = new Font("Arial", 8)
+            };
+            btnSortDamage.Click += BtnSortDamage_Click;
+
+            // --- Sort by HP button ---
+            Button btnSortHP = new Button
+            {
+                Text = "Sort by HP",
+                Size = new Size(120, 25),
+                Location = new Point(230, 378),
+                Font = new Font("Arial", 8)
+            };
+            btnSortHP.Click += BtnSortHP_Click;
 
             lblDetails = new Label
             {
@@ -73,8 +92,8 @@ namespace PokemonBattleSimulatorGUI
                 Location = new Point(360, 440),
                 Font = new Font("Arial", 12, FontStyle.Bold)
             };
-
             btnStart.Click += BtnStart_Click;
+
             listPokemon.SelectedIndexChanged += ListPokemon_SelectedIndexChanged;
 
             allPokemon = PokemonFactory.GetAllPokemon();
@@ -87,9 +106,32 @@ namespace PokemonBattleSimulatorGUI
 
             Controls.Add(title);
             Controls.Add(listPokemon);
+            Controls.Add(btnSortDamage);
+            Controls.Add(btnSortHP);
             Controls.Add(lblDetails);
             Controls.Add(btnStart);
             Controls.Add(picPokemon);
+        }
+
+        private void BtnSortDamage_Click(object sender, EventArgs e)
+        {
+            allPokemon.Sort(); // uses IComparable<Pokemon>.CompareTo → sorts by Attack
+            RefreshList();
+        }
+
+        private void BtnSortHP_Click(object sender, EventArgs e)
+        {
+            allPokemon.Sort(new Pokemon.ByHPComparer()); // uses ByHPComparer → sorts by MaxHP
+            RefreshList();
+        }
+
+        private void RefreshList()
+        {
+            listPokemon.Items.Clear();
+            foreach (Pokemon pokemon in allPokemon)
+            {
+                listPokemon.Items.Add(pokemon.Name);
+            }
         }
 
         private void ListPokemon_SelectedIndexChanged(object sender, EventArgs e)
@@ -97,13 +139,11 @@ namespace PokemonBattleSimulatorGUI
             if (listPokemon.SelectedIndex >= 0)
             {
                 Pokemon selectedPokemon = allPokemon[listPokemon.SelectedIndex];
-
                 lblDetails.Text =
                     "Name: " + selectedPokemon.Name + "\n" +
                     "HP: " + selectedPokemon.MaxHP + "\n" +
                     "Attack: " + selectedPokemon.Attack + "\n" +
                     "Type: " + selectedPokemon.Type;
-
                 LoadPokemonImage(selectedPokemon.Name);
             }
         }
@@ -115,10 +155,8 @@ namespace PokemonBattleSimulatorGUI
                 MessageBox.Show("Please select a Pokemon first.");
                 return;
             }
-
             GameManager.PlayerPokemon = allPokemon[listPokemon.SelectedIndex].Clone();
             GameManager.CurrentLevel = 1;
-
             BattleForm battleForm = new BattleForm();
             battleForm.Show();
             Hide();
@@ -130,7 +168,6 @@ namespace PokemonBattleSimulatorGUI
             {
                 string fileName = pokemonName.ToLower() + ".png";
                 string imagePath = Path.Combine(Application.StartupPath, "Images", fileName);
-
                 if (File.Exists(imagePath))
                 {
                     picPokemon.Image = Image.FromFile(imagePath);
