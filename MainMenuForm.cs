@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using System.IO;
 using System.Media;
 using System.Windows.Forms;
@@ -47,17 +47,20 @@ namespace PokemonBattleSimulatorGUI
             Button btnContinue = CreateMenuButton("Continue", 250);
             Button btnLoad = CreateMenuButton("Load Game", 320);
             Button btnRules = CreateMenuButton("Rules", 390);
+            Button btnQuit = CreateMenuButton("Quit", 460);
 
             btnPlay.Click += BtnPlay_Click;
             btnContinue.Click += BtnContinue_Click;
             btnLoad.Click += BtnLoad_Click;
             btnRules.Click += BtnRules_Click;
+            btnQuit.Click += BtnQuit_Click;
 
             Controls.Add(titleLabel);
             Controls.Add(btnPlay);
             Controls.Add(btnContinue);
             Controls.Add(btnLoad);
             Controls.Add(btnRules);
+            Controls.Add(btnQuit);
         }
 
         private void BtnPlay_Click(object sender, System.EventArgs e)
@@ -92,6 +95,11 @@ namespace PokemonBattleSimulatorGUI
         {
             RulesForm rulesForm = new RulesForm();
             rulesForm.ShowDialog();
+        }
+
+        private void BtnQuit_Click(object sender, System.EventArgs e)
+        {
+            Application.Exit();
         }
 
         private Button CreateMenuButton(string text, int y)
