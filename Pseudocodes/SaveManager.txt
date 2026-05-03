@@ -1,1 +1,75 @@
+CLASS SaveManager
 
+VARIABLE SaveFolder
+VARIABLE LatestFile
+
+FUNCTION EnsureFolder:
+    if save folder does not exist:
+        create folder
+
+FUNCTION GetSlotPath(slot):
+    ensure folder exists
+    return file path for that slot
+
+FUNCTION SaveManual:
+    ensure folder exists
+
+    if slot 3 exists:
+        delete slot 3
+
+    if slot 2 exists:
+        move slot 2 → slot 3
+
+    if slot 1 exists:
+        move slot 1 → slot 2
+
+    save new game in slot 1
+
+FUNCTION SaveToSlot(slot):
+    ensure folder exists
+
+    create save data
+    store slot number, time, level
+    store player Pokemon
+
+    convert data to JSON
+    write JSON to file
+    save latest slot number
+
+FUNCTION GetAllSaves:
+    ensure folder exists
+
+    create empty save list
+
+    for slots 1 to 3:
+        if save file exists:
+            read file
+            convert JSON to save data
+            add to list
+
+    return list
+
+FUNCTION ContinueLastSave:
+    ensure folder exists
+
+    if latest file does not exist:
+        return false
+
+    read latest slot number
+    load that slot
+
+FUNCTION LoadFromSlot(slot):
+    if file does not exist:
+        return false
+
+    read file
+    convert JSON to save data
+
+    if data is invalid:
+        return false
+
+    set player Pokemon
+    set current level
+
+    save this slot as latest
+    return true
