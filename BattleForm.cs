@@ -53,7 +53,7 @@ namespace PokemonBattleSimulatorGUI
                 BackgroundImage = Image.FromFile(bgPath);
                 BackgroundImageLayout = ImageLayout.Stretch;
             }
-            
+
 
             Label lblTitle = new Label
             {
@@ -146,7 +146,7 @@ namespace PokemonBattleSimulatorGUI
                 Location = new Point(520, 530),
                 Font = new Font("Arial", 11, FontStyle.Bold)
             };
-            
+
             btnHeal = new Button
             {
                 Text = "Heal",
@@ -184,7 +184,7 @@ namespace PokemonBattleSimulatorGUI
                 Location = new Point(760, 20),
                 Font = new Font("Arial", 9, FontStyle.Bold)
             };
-            
+
 
             btnLightAttack.Click += BtnLightAttack_Click;
             btnMediumAttack.Click += BtnMediumAttack_Click;
@@ -217,27 +217,6 @@ namespace PokemonBattleSimulatorGUI
             AddLog("Battle Start! " + player.Name + " vs " + enemy.Name);
         }
 
-        private void UpdateUI()
-        {
-            lblPlayer.Text =
-                "Player Pokemon: " + player.Name + "\n" +
-                "Type: " + player.Type + "\n" +
-                "HP: " + player.CurrentHP + "/" + player.MaxHP + "\n" +
-                "Attack: " + player.Attack;
-
-            lblEnemy.Text =
-                "Enemy Pokemon: " + enemy.Name + "\n" +
-                "Type: " + enemy.Type + "\n" +
-                "HP: " + enemy.CurrentHP + "/" + enemy.MaxHP + "\n" +
-                "Attack: " + enemy.Attack;
-
-            playerBar.Value = Math.Max(0, Math.Min(player.CurrentHP, playerBar.Maximum));
-            enemyBar.Value = Math.Max(0, Math.Min(enemy.CurrentHP, enemyBar.Maximum));
-        }
-        private void AddLog(string message)
-        {
-            txtLog.AppendText(message + Environment.NewLine);
-        }
         private void LoadBattleImages()
         {
             picPlayer.Image = null;
@@ -280,34 +259,6 @@ namespace PokemonBattleSimulatorGUI
             }
         }
 
-        private async void BtnHeal_Click(object sender, EventArgs e)
-        {
-            if (hasHealed)
-            {
-                MessageBox.Show("You can only heal once per battle.");
-                return;
-            }
-
-            hasHealed = true;
-
-            player.CurrentHP += 25;
-
-            if (player.CurrentHP > player.MaxHP)
-            {
-                player.CurrentHP = player.MaxHP;
-            }
-
-            AddLog(player.Name + " healed for 25 HP!");
-            UpdateUI();
-
-            SetAttackButtonsEnabled(false);
-            btnHeal.Enabled = false;
-
-            AddLog(enemy.Name + " is preparing an attack...");
-            await Task.Delay(2000);
-
-            EnemyTurn();
-        }
 
         private async void BtnLightAttack_Click(object sender, EventArgs e)
         {
@@ -326,7 +277,7 @@ namespace PokemonBattleSimulatorGUI
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            SaveManager.SaveAuto();
+            SaveManager.SaveManual();
             MessageBox.Show("Game saved.");
         }
         private void BtnBackMenu_Click(object sender, EventArgs e)
@@ -349,7 +300,7 @@ namespace PokemonBattleSimulatorGUI
         {
             Application.Exit();
         }
-       
+
         private async Task PlayerAttack(string attackType)
         {
             SetAttackButtonsEnabled(false);
@@ -389,7 +340,6 @@ namespace PokemonBattleSimulatorGUI
             if (enemy.CurrentHP <= 0)
             {
                 AddLog(enemy.Name + " fainted!");
-                SaveManager.SaveAuto();
                 HandleWin();
                 return;
             }
@@ -400,7 +350,34 @@ namespace PokemonBattleSimulatorGUI
             EnemyTurn();
         }
 
-      
+        private async void BtnHeal_Click(object sender, EventArgs e)
+        {
+            if (hasHealed)
+            {
+                MessageBox.Show("You can only heal once per battle.");
+                return;
+            }
+
+            hasHealed = true;
+
+            player.CurrentHP += 25;
+
+            if (player.CurrentHP > player.MaxHP)
+            {
+                player.CurrentHP = player.MaxHP;
+            }
+
+            AddLog(player.Name + " healed for 25 HP!");
+            UpdateUI();
+
+            SetAttackButtonsEnabled(false);
+            btnHeal.Enabled = false;
+
+            AddLog(enemy.Name + " is preparing an attack...");
+            await Task.Delay(2000);
+
+            EnemyTurn();
+        }
         private void EnemyTurn()
         {
             string[] attackOptions = { "Light", "Medium", "Heavy" };
@@ -428,7 +405,7 @@ namespace PokemonBattleSimulatorGUI
                 AddLog(enemy.Name + " used " + enemyAttackType + " Attack on " + player.Name + " for " + enemyDamage + " damage.");
                 AddLog(BattleSystem.GetEffectText(enemyMultiplier));
             }
-            
+
             if (enemyCritical)
             {
                 AddLog("Critical hit!");
@@ -476,5 +453,27 @@ namespace PokemonBattleSimulatorGUI
             Close();
         }
 
+        private void UpdateUI()
+        {
+            lblPlayer.Text =
+                "Player Pokemon: " + player.Name + "\n" +
+                "Type: " + player.Type + "\n" +
+                "HP: " + player.CurrentHP + "/" + player.MaxHP + "\n" +
+                "Attack: " + player.Attack;
+
+            lblEnemy.Text =
+                "Enemy Pokemon: " + enemy.Name + "\n" +
+                "Type: " + enemy.Type + "\n" +
+                "HP: " + enemy.CurrentHP + "/" + enemy.MaxHP + "\n" +
+                "Attack: " + enemy.Attack;
+
+            playerBar.Value = Math.Max(0, Math.Min(player.CurrentHP, playerBar.Maximum));
+            enemyBar.Value = Math.Max(0, Math.Min(enemy.CurrentHP, enemyBar.Maximum));
+        }
+
+        private void AddLog(string message)
+        {
+            txtLog.AppendText(message + Environment.NewLine);
+        }
     }
 }
