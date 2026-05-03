@@ -217,6 +217,27 @@ namespace PokemonBattleSimulatorGUI
             AddLog("Battle Start! " + player.Name + " vs " + enemy.Name);
         }
 
+        private void UpdateUI()
+        {
+            lblPlayer.Text =
+                "Player Pokemon: " + player.Name + "\n" +
+                "Type: " + player.Type + "\n" +
+                "HP: " + player.CurrentHP + "/" + player.MaxHP + "\n" +
+                "Attack: " + player.Attack;
+
+            lblEnemy.Text =
+                "Enemy Pokemon: " + enemy.Name + "\n" +
+                "Type: " + enemy.Type + "\n" +
+                "HP: " + enemy.CurrentHP + "/" + enemy.MaxHP + "\n" +
+                "Attack: " + enemy.Attack;
+
+            playerBar.Value = Math.Max(0, Math.Min(player.CurrentHP, playerBar.Maximum));
+            enemyBar.Value = Math.Max(0, Math.Min(enemy.CurrentHP, enemyBar.Maximum));
+        }
+        private void AddLog(string message)
+        {
+            txtLog.AppendText(message + Environment.NewLine);
+        }
         private void LoadBattleImages()
         {
             picPlayer.Image = null;
@@ -455,27 +476,5 @@ namespace PokemonBattleSimulatorGUI
             Close();
         }
 
-        private void UpdateUI()
-        {
-            lblPlayer.Text =
-                "Player Pokemon: " + player.Name + "\n" +
-                "Type: " + player.Type + "\n" +
-                "HP: " + player.CurrentHP + "/" + player.MaxHP + "\n" +
-                "Attack: " + player.Attack;
-
-            lblEnemy.Text =
-                "Enemy Pokemon: " + enemy.Name + "\n" +
-                "Type: " + enemy.Type + "\n" +
-                "HP: " + enemy.CurrentHP + "/" + enemy.MaxHP + "\n" +
-                "Attack: " + enemy.Attack;
-
-            playerBar.Value = Math.Max(0, Math.Min(player.CurrentHP, playerBar.Maximum));
-            enemyBar.Value = Math.Max(0, Math.Min(enemy.CurrentHP, enemyBar.Maximum));
-        }
-
-        private void AddLog(string message)
-        {
-            txtLog.AppendText(message + Environment.NewLine);
-        }
     }
 }
