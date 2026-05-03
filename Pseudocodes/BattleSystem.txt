@@ -1,1 +1,50 @@
+CLASS BattleSystem
 
+FUNCTION GetTypeMultiplier:
+    if attack type is strong against defender type:
+        return 1.5
+    if attack type is weak against defender type:
+        return 0.75
+    otherwise:
+        return 1.0
+
+FUNCTION GetEffectText:
+    if multiplier is more than 1:
+        return "super effective"
+    if multiplier is less than 1:
+        return "not very effective"
+    otherwise:
+        return "normal damage"
+
+FUNCTION CalculateAttackDamage:
+    set missed to false
+    set critical to false
+
+    get type multiplier
+    choose random bonus damage
+
+    if attack is Light:
+        lower damage, low miss chance
+    if attack is Medium:
+        normal damage, medium miss chance
+    if attack is Heavy:
+        high damage, high miss chance
+
+    roll random number
+    if roll is inside miss chance:
+        missed = true
+        return 0 damage
+
+    calculate damage using:
+        attacker attack
+        attack strength
+        type multiplier
+        bonus
+
+    roll for critical hit
+    if critical:
+        increase damage
+        critical = true
+
+    make sure damage is at least 1
+    return damage
