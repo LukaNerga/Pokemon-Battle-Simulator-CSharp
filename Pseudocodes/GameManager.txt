@@ -1,1 +1,20 @@
+CLASS GameManager
 
+VARIABLE PlayerPokemon
+VARIABLE CurrentLevel = 1
+
+FUNCTION StartNewGame:
+    set PlayerPokemon to null
+    set CurrentLevel to 1
+
+FUNCTION GetEnemyForLevel(level):
+    if level = 1 → return Fire Pokemon
+    if level = 2 → return Water Pokemon
+    if level = 3 → return Grass Pokemon
+    otherwise → return Electric boss Pokemon
+
+FUNCTION GetLevelName(level):
+    if level = 1 → return "Level 1 - Fire Opponent"
+    if level = 2 → return "Level 2 - Water Opponent"
+    if level = 3 → return "Level 3 - Grass Opponent"
+    otherwise → return "Final Boss - Pikachu"
