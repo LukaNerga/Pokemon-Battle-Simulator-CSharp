@@ -124,6 +124,6 @@ SaveSystem/ → saving and loading logic
 
 ---
 
-## 👤 Author
+## Author
 
 Luka Nergadze, Papuna Gorgodze
