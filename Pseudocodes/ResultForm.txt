@@ -1,1 +1,21 @@
+CLASS ResultForm
 
+WHEN form starts:
+    set window size and title
+
+    if player won:
+        set background to green
+        set text to "You defeated all opponents"
+    else:
+        set background to red
+        set text to "Game Over"
+
+    create result label
+    create "Back to Main Menu" button
+    connect button to action
+    add elements to screen
+
+WHEN button is clicked:
+    start new game
+    open main menu
+    close result screen
