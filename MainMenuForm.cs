@@ -1,13 +1,11 @@
 using System.Drawing;
 using System.IO;
-using System.Media;
 using System.Windows.Forms;
 
 namespace PokemonBattleSimulatorGUI
 {
     public class MainMenuForm : Form
     {
-        private SoundPlayer player;
 
         public MainMenuForm()
         {
@@ -29,8 +27,6 @@ namespace PokemonBattleSimulatorGUI
             {
                 BackColor = Color.LightSkyBlue;
             }
-
-            TryPlayMusic();
 
             Label titleLabel = new Label
             {
@@ -114,21 +110,5 @@ namespace PokemonBattleSimulatorGUI
             return button;
         }
 
-        private void TryPlayMusic()
-        {
-            try
-            {
-                string musicPath = Path.Combine(Application.StartupPath, "intro.wav");
-
-                if (File.Exists(musicPath))
-                {
-                    player = new SoundPlayer(musicPath);
-                    player.PlayLooping();
-                }
-            }
-            catch
-            {
-            }
-        }
     }
 }
