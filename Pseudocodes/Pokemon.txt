@@ -1,1 +1,22 @@
+CLASS Pokemon
 
+VARIABLE Name
+VARIABLE MaxHP
+VARIABLE CurrentHP
+VARIABLE Attack
+VARIABLE Type
+
+CONSTRUCTOR (empty):
+    do nothing
+
+CONSTRUCTOR (name, hp, attack, type):
+    set Name
+    set MaxHP
+    set CurrentHP = MaxHP
+    set Attack
+    set Type
+
+FUNCTION Clone:
+    create new Pokemon with same Name, MaxHP, Attack, Type
+    set CurrentHP to same value
+    return new Pokemon
