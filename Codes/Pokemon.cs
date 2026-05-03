@@ -1,10 +1,10 @@
-﻿namespace PokemonBattleSimulatorGUI
+using System;
+
+namespace PokemonBattleSimulatorGUI
 {
-    public class Pokemon
+    // Pokemon class inherits from GameCharacter and implements IComparable
+    public class Pokemon : GameCharacter, IComparable<Pokemon>
     {
-        public string Name { get; set; } = "";
-        public int MaxHP { get; set; }
-        public int CurrentHP { get; set; }
         public int Attack { get; set; }
         public string Type { get; set; } = "";
 
@@ -17,6 +17,26 @@
             CurrentHP = hp;
             Attack = attack;
             Type = type;
+        }
+
+        // Polymorphism: override base method
+        public override string GetInfo()
+        {
+            return "Pokemon: " + Name +
+                   "\nType: " + Type +
+                   "\nHP: " + CurrentHP + "/" + MaxHP +
+                   "\nAttack: " + Attack;
+        }
+
+        // Required for IComparable
+        public int CompareTo(Pokemon other)
+        {
+            if (other == null)
+            {
+                return 1;
+            }
+
+            return this.Attack.CompareTo(other.Attack);
         }
 
         public Pokemon Clone()
