@@ -101,20 +101,21 @@ SaveSystem/ → saving and loading logic
 
 ## 🎮 Game Screens
 
+## 🎮 Game Screens
+
 <p align="center">
   <img src="https://github.com/user-attachments/assets/d233c781-3c3b-4941-b0e8-356d9a38ff25" width="400"/>
-  <img src="https://github.com/user-attachments/assets/7a1001af-1648-43b2-8c46-2e344a908d96" width="400"/>
+  <img src="https://github.com/user-attachments/assets/3db8c84f-501a-4e86-9593-46aaec849130" width="400"/>
 </p>
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/3db8c84f-501a-4e86-9593-46aaec849130" width="400"/>
+  <img src="https://github.com/user-attachments/assets/7a1001af-1648-43b2-8c46-2e344a908d96" width="400"/>
   <img src="https://github.com/user-attachments/assets/21f9b46c-3115-4905-9ad8-ad7453f86266" width="400"/>
 </p>
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/1417a58c-8762-44f7-a970-ae45167cfdae" width="400"/>
 </p>
-
 
 ---
 
