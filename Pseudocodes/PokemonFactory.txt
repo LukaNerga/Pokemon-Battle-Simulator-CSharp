@@ -1,1 +1,16 @@
+CLASS PokemonFactory
 
+FUNCTION GetAllPokemon:
+    create list of Pokemon:
+        Charmander (Fire)
+        Squirtle (Water)
+        Bulbasaur (Grass)
+        Pikachu (Electric)
+        Eevee (Normal)
+        Pidgey (Flying)
+        Geodude (Rock)
+        Gastly (Ghost)
+        Machop (Fighting)
+        Dratini (Dragon)
+
+    return list
