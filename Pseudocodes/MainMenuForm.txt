@@ -1,1 +1,42 @@
+CLASS MainMenuForm
 
+WHEN form starts:
+    set up main menu window
+    load background image
+
+    create title label
+    create buttons:
+        Play New
+        Continue
+        Load Game
+        Rules
+        Quit
+
+    connect buttons to actions
+    add all controls to screen
+
+WHEN Play New is clicked:
+    start new game
+    open character selection screen
+    hide main menu
+
+WHEN Continue is clicked:
+    try to load last save
+    if success:
+        open battle screen
+        hide main menu
+    else:
+        show "No save found"
+
+WHEN Load Game is clicked:
+    open load game window
+
+WHEN Rules is clicked:
+    open rules window
+
+WHEN Quit is clicked:
+    close application
+
+FUNCTION CreateMenuButton:
+    create button with text and position
+    return button
