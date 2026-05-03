@@ -1,24 +1,27 @@
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Media;
 using System.Windows.Forms;
 
 namespace PokemonBattleSimulatorGUI
 {
-    public class MainMenuForm : Form
+    public class CharacterSelectionForm : Form
     {
-        private SoundPlayer player;
+        private readonly ListBox listPokemon;
+        private readonly PictureBox picPokemon;
+        private readonly Label lblDetails;
+        private readonly List<Pokemon> allPokemon;
 
-        public MainMenuForm()
+        public CharacterSelectionForm()
         {
-            Text = "Pokemon Type Battle Simulator";
+            Text = "Choose Your Pokemon";
             Size = new Size(900, 600);
             StartPosition = FormStartPosition.CenterScreen;
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
-            BackgroundImageLayout = ImageLayout.Stretch;
 
-            string bgPath = Path.Combine(Application.StartupPath, "MenuImages", "menu_bg.png");
+            string bgPath = Path.Combine(Application.StartupPath, "SelectionImages", "select_bg.png");
 
             if (File.Exists(bgPath))
             {
@@ -27,107 +30,150 @@ namespace PokemonBattleSimulatorGUI
             }
             else
             {
-                BackColor = Color.LightSkyBlue;
+                BackColor = Color.Beige;
             }
 
-            TryPlayMusic();
-
-            Label titleLabel = new Label
+            Label title = new Label
             {
-                Text = "Pokemon Type Battle Simulator",
-                Font = new Font("Arial", 24, FontStyle.Bold),
-                AutoSize = false,
-                TextAlign = ContentAlignment.MiddleCenter,
-                Size = new Size(500, 60),
-                Location = new Point(200, 40),
-                BackColor = Color.FromArgb(180, Color.White)
+                Text = "Select Your Pokemon",
+                Font = new Font("Arial", 20, FontStyle.Bold),
+                AutoSize = true,
+                Location = new Point(250, 30)
             };
 
-            Button btnPlay = CreateMenuButton("Play New", 180);
-            Button btnContinue = CreateMenuButton("Continue", 250);
-            Button btnLoad = CreateMenuButton("Load Game", 320);
-            Button btnRules = CreateMenuButton("Rules", 390);
-            Button btnQuit = CreateMenuButton("Quit", 460);
+            listPokemon = new ListBox
+            {
+                Size = new Size(250, 250),
+                Location = new Point(80, 100),
+                Font = new Font("Arial", 12)
+            };
 
-            btnPlay.Click += BtnPlay_Click;
-            btnContinue.Click += BtnContinue_Click;
-            btnLoad.Click += BtnLoad_Click;
-            btnRules.Click += BtnRules_Click;
+            lblDetails = new Label
+            {
+                Size = new Size(280, 100),
+                Location = new Point(400, 320),
+                Font = new Font("Arial", 12),
+                BorderStyle = BorderStyle.FixedSingle,
+                BackColor = Color.White
+            };
+
+            picPokemon = new PictureBox
+            {
+                Size = new Size(180, 180),
+                Location = new Point(470, 120),
+                SizeMode = PictureBoxSizeMode.Zoom,
+                BorderStyle = BorderStyle.FixedSingle,
+                BackColor = Color.White
+            };
+
+            Button btnStart = new Button
+            {
+                Text = "Start Battle",
+                Size = new Size(180, 45),
+                Location = new Point(300, 430),
+                Font = new Font("Arial", 12, FontStyle.Bold)
+            };
+
+            Button btnBack = new Button()
+            {
+                Text = "Back",
+                Size = new Size(120, 40),
+                Location = new Point(20, 20),
+                Font = new Font("Arial", 10, FontStyle.Bold)
+            };
+            Button btnQuit = new Button()
+            {
+                Text = "Quit",
+                Size = new Size(120, 40),
+                Location = new Point(650, 20),
+                Font = new Font("Arial", 10, FontStyle.Bold)
+            };
+
+            btnStart.Click += BtnStart_Click;
+            btnBack.Click += BtnBack_Click;
             btnQuit.Click += BtnQuit_Click;
+            listPokemon.SelectedIndexChanged += ListPokemon_SelectedIndexChanged;
 
-            Controls.Add(titleLabel);
-            Controls.Add(btnPlay);
-            Controls.Add(btnContinue);
-            Controls.Add(btnLoad);
-            Controls.Add(btnRules);
+            allPokemon = PokemonFactory.GetAllPokemon();
+
+            foreach (Pokemon pokemon in allPokemon)
+            {
+                listPokemon.Items.Add(pokemon.Name);
+            }
+
+            Controls.Add(title);
+            Controls.Add(listPokemon);
+            Controls.Add(lblDetails);
+            Controls.Add(btnStart);
+            Controls.Add(btnBack);
             Controls.Add(btnQuit);
+            Controls.Add(picPokemon);
+            
         }
 
-        private void BtnPlay_Click(object sender, System.EventArgs e)
+        private void ListPokemon_SelectedIndexChanged(object sender, EventArgs e)
         {
-            GameManager.StartNewGame();
-            CharacterSelectionForm selectionForm = new CharacterSelectionForm();
-            selectionForm.Show();
+            if (listPokemon.SelectedIndex >= 0)
+            {
+                Pokemon selectedPokemon = allPokemon[listPokemon.SelectedIndex];
+
+                lblDetails.Text =
+                    "Name: " + selectedPokemon.Name + "\n" +
+                    "HP: " + selectedPokemon.MaxHP + "\n" +
+                    "Attack: " + selectedPokemon.Attack + "\n" +
+                    "Type: " + selectedPokemon.Type;
+
+                LoadPokemonImage(selectedPokemon.Name);
+            }
+        }
+
+        private void BtnStart_Click(object sender, EventArgs e)
+        {
+            if (listPokemon.SelectedIndex < 0)
+            {
+                MessageBox.Show("Please select a Pokemon first.");
+                return;
+            }
+
+            GameManager.PlayerPokemon = allPokemon[listPokemon.SelectedIndex].Clone();
+            GameManager.CurrentLevel = 1;
+
+            BattleForm battleForm = new BattleForm();
+            battleForm.Show();
             Hide();
         }
 
-        private void BtnContinue_Click(object sender, System.EventArgs e)
+        private void BtnBack_Click(object sender, EventArgs e)
         {
-            if (SaveManager.ContinueLastSave())
-            {
-                BattleForm battleForm = new BattleForm();
-                battleForm.Show();
-                Hide();
-            }
-            else
-            {
-                MessageBox.Show("No save found.");
-            }
+            MainMenuForm menu = new MainMenuForm();
+            menu.Show();
+            Close();
         }
 
-        private void BtnLoad_Click(object sender, System.EventArgs e)
-        {
-            LoadGameForm loadGameForm = new LoadGameForm();
-            loadGameForm.ShowDialog();
-        }
-
-        private void BtnRules_Click(object sender, System.EventArgs e)
-        {
-            RulesForm rulesForm = new RulesForm();
-            rulesForm.ShowDialog();
-        }
-
-        private void BtnQuit_Click(object sender, System.EventArgs e)
+        private void BtnQuit_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
-        private Button CreateMenuButton(string text, int y)
-        {
-            Button button = new Button();
-            button.Text = text;
-            button.Size = new Size(220, 50);
-            button.Location = new Point(340, y);
-            button.Font = new Font("Arial", 12, FontStyle.Bold);
-            button.BackColor = Color.White;
-
-            return button;
-        }
-
-        private void TryPlayMusic()
+        private void LoadPokemonImage(string pokemonName)
         {
             try
             {
-                string musicPath = Path.Combine(Application.StartupPath, "intro.wav");
+                string fileName = pokemonName.ToLower() + ".png";
+                string imagePath = Path.Combine(Application.StartupPath, "Images", fileName);
 
-                if (File.Exists(musicPath))
+                if (File.Exists(imagePath))
                 {
-                    player = new SoundPlayer(musicPath);
-                    player.PlayLooping();
+                    picPokemon.Image = Image.FromFile(imagePath);
+                }
+                else
+                {
+                    picPokemon.Image = null;
                 }
             }
             catch
             {
+                picPokemon.Image = null;
             }
         }
     }
