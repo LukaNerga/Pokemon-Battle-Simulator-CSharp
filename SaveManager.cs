@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
@@ -25,6 +25,29 @@ namespace PokemonBattleSimulatorGUI
             return Path.Combine(SaveFolder, "slot" + slot + ".json");
         }
 
+        // SIMPLE rotating save (1 -> 2 -> 3)
+        public static void SaveManual()
+        {
+            EnsureFolder();
+
+            if (File.Exists(GetSlotPath(3)))
+            {
+                File.Delete(GetSlotPath(3));
+            }
+
+            if (File.Exists(GetSlotPath(2)))
+            {
+                File.Move(GetSlotPath(2), GetSlotPath(3));
+            }
+
+            if (File.Exists(GetSlotPath(1)))
+            {
+                File.Move(GetSlotPath(1), GetSlotPath(2));
+            }
+
+            SaveToSlot(1);
+        }
+
         public static void SaveToSlot(int slot)
         {
             EnsureFolder();
@@ -48,42 +71,6 @@ namespace PokemonBattleSimulatorGUI
             File.WriteAllText(LatestFile, slot.ToString());
         }
 
-        public static void SaveAuto()
-        {
-            EnsureFolder();
-
-            List<SaveData> saves = GetAllSaves();
-            int slotToUse = 1;
-
-            if (saves.Count < 3)
-            {
-                for (int i = 1; i <= 3; i++)
-                {
-                    if (!File.Exists(GetSlotPath(i)))
-                    {
-                        slotToUse = i;
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                SaveData oldest = saves[0];
-
-                foreach (SaveData save in saves)
-                {
-                    if (save.SaveTime < oldest.SaveTime)
-                    {
-                        oldest = save;
-                    }
-                }
-
-                slotToUse = oldest.SlotNumber;
-            }
-
-            SaveToSlot(slotToUse);
-        }
-
         public static List<SaveData> GetAllSaves()
         {
             EnsureFolder();
@@ -103,6 +90,7 @@ namespace PokemonBattleSimulatorGUI
 
                         if (data != null)
                         {
+                            data.SlotNumber = i;
                             saves.Add(data);
                         }
                     }
@@ -112,20 +100,7 @@ namespace PokemonBattleSimulatorGUI
                 }
             }
 
-            List<SaveData> sortedSaves = new List<SaveData>();
-
-            for (int slotNumber = 1; slotNumber <= 3; slotNumber++)
-            {
-                foreach (SaveData save in saves)
-                {
-                    if (save.SlotNumber == slotNumber)
-                    {
-                        sortedSaves.Add(save);
-                    }
-                }
-            }
-
-            return sortedSaves;
+            return saves;
         }
 
         public static bool ContinueLastSave()
@@ -140,9 +115,7 @@ namespace PokemonBattleSimulatorGUI
             string text = File.ReadAllText(LatestFile);
 
             int slot;
-            bool success = int.TryParse(text, out slot);
-
-            if (!success)
+            if (!int.TryParse(text, out slot))
             {
                 return false;
             }
@@ -164,12 +137,7 @@ namespace PokemonBattleSimulatorGUI
                 string json = File.ReadAllText(path);
                 SaveData data = JsonSerializer.Deserialize<SaveData>(json);
 
-                if (data == null)
-                {
-                    return false;
-                }
-
-                if (data.PlayerPokemon == null)
+                if (data == null || data.PlayerPokemon == null)
                 {
                     return false;
                 }
