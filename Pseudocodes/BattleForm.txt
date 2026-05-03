@@ -1,1 +1,61 @@
+CLASS BattleForm
 
+WHEN form starts:
+    get player and enemy Pokemon
+    reset player HP
+    create UI (labels, images, buttons, log)
+    load images
+    show "Battle Start"
+
+WHEN attack button clicked:
+    disable buttons
+    calculate damage
+    if miss → log miss
+    else → reduce enemy HP and log result
+    if critical → log it
+    update UI
+
+    if enemy HP = 0:
+        handle win
+    else:
+        wait 2 seconds
+        enemy turn
+
+WHEN heal button clicked:
+    if already healed → show message
+    else:
+        heal player
+        disable buttons
+        wait 2 seconds
+        enemy turn
+
+FUNCTION EnemyTurn:
+    choose random attack
+    calculate damage
+    if miss → log
+    else → reduce player HP and log
+    update UI
+
+    if player HP = 0:
+        handle lose
+    else:
+        enable buttons
+
+FUNCTION HandleWin:
+    if not last level:
+        increase level
+        open next battle
+    else:
+        show win screen
+
+FUNCTION HandleLose:
+    show lose screen
+
+WHEN Save clicked:
+    save game
+
+WHEN Menu/Selection clicked:
+    go to selected screen
+
+WHEN Quit clicked:
+    exit game
