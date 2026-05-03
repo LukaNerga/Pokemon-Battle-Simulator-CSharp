@@ -1,107 +1,122 @@
-# Pokémon Battle Simulator (C# WinForms)
+# 🎮 Pokemon Type Battle Simulator (C# WinForms)
 
-A turn-based Pokémon-style battle game built with C# and Windows Forms.
-The game features a graphical interface, multiple battle levels, and a save/load system.
-
----
-
-## 🎮 Features
-
-* Character selection system
-* Turn-based battle mechanics
-* Multiple attack types (Light, Medium, Heavy)
-* Type effectiveness system (Fire, Water, Grass, Electric, etc.)
-* Critical hits and miss chances
-* Heal ability (limited use per battle)
-* Multiple levels with increasing difficulty
-* Save & Load game system (3 slots + auto-save)
-* GUI built with Windows Forms
+A simple turn-based Pokémon battle game built using **C# and Windows Forms**.  
+Choose your Pokémon, battle enemies with different types, and progress through levels to defeat the final boss.
 
 ---
 
-## 🖥️ Technologies Used
+## 📌 Features
 
-* C#
-* .NET (WinForms)
-* Windows Forms (GUI)
+- 🎯 Choose from 10 different Pokémon
+- ⚔️ Turn-based battle system (Light / Medium / Heavy attacks)
+- 🔥 Type effectiveness system (Fire, Water, Grass, Electric, etc.)
+- ❤️ Heal option (once per battle)
+- 📊 HP bars and battle log
+- 💾 Manual save system with 3 rotating slots
+- 🔄 Continue last saved game
+- 🧾 Rules screen
+- 🏆 Win/Lose result screen
+
+---
+
+## 🎮 How to Play
+
+1. Click **Play New** to start a new game
+2. Select a Pokémon
+3. Battle enemies in order:
+   - Level 1: Fire
+   - Level 2: Water
+   - Level 3: Grass
+   - Final Boss: Pikachu ⚡
+4. Use:
+   - Light Attack (low damage, low miss chance)
+   - Medium Attack (balanced)
+   - Heavy Attack (high damage, high miss chance)
+5. Use **Heal** once per battle
+6. Defeat all enemies to win
+
+---
+
+## 💾 Save System
+
+- Game saves manually using **Save Game** button
+- Uses **3 rotating slots**:
+  - Slot 1 = newest save
+  - Slot 2 → Slot 3
+  - Slot 1 → Slot 2
+- **Continue** loads the last saved game
+- **Load Game** lets you choose a slot
+
+---
+
+## 🧠 Game Mechanics
+
+### Type Advantage
+
+| Attack Type | Strong Against | Weak Against |
+|------------|---------------|-------------|
+| Fire       | Grass         | Water       |
+| Water      | Fire          | Grass       |
+| Grass      | Water         | Fire        |
+| Electric   | Water         | —           |
+
+- Strong: **1.5x damage**
+- Weak: **0.75x damage**
+
+### Critical Hits
+- 15% chance
+- Deals **1.5x damage**
+
+### Miss Chance
+- Light: 10%
+- Medium: 20%
+- Heavy: 35%
+
+---
+
+## 🗂️ Project Structure
+Forms/ → UI screens (menus, battle, selection)
+GameLogic/ → battle system and game manager
+Models/ → data classes (Pokemon, SaveData)
+Factories/ → Pokemon creation
+SaveSystem/ → saving and loading logic
+
+---
+
+## 🛠️ Technologies Used
+
+- C#
+- .NET WinForms
+- JSON Serialization (System.Text.Json)
 
 ---
 
 ## ▶️ How to Run
 
-### Option 1 — Using Visual Studio (Recommended)
-
 1. Open the project in **Visual Studio**
-2. Open the file:
-
-   ```
-   PokemonBattleSimulatorGUI.sln
-   ```
-3. Click **Run (▶️)**
+2. Build the solution
+3. Run the project
 
 ---
 
-### Option 2 — Run Executable
+## 📷 Screenshots
+<img width="443" height="295" alt="Screenshot 2026-05-03 at 23 35 42" src="https://github.com/user-attachments/assets/d233c781-3c3b-4941-b0e8-356d9a38ff25" />
+<img width="443" height="323" alt="Screenshot 2026-05-03 at 23 36 45" src="https://github.com/user-attachments/assets/7a1001af-1648-43b2-8c46-2e344a908d96" />
+<img width="443" height="297" alt="Screenshot 2026-05-03 at 23 36 35" src="https://github.com/user-attachments/assets/3db8c84f-501a-4e86-9593-46aaec849130" />
+<img width="442" height="296" alt="Screenshot 2026-05-03 at 23 36 16" src="https://github.com/user-attachments/assets/21f9b46c-3115-4905-9ad8-ad7453f86266" />
+<img width="443" height="296" alt="Screenshot 2026-05-03 at 23 36 00" src="https://github.com/user-attachments/assets/1417a58c-8762-44f7-a970-ae45167cfdae" />
 
-1. Download the project or release
-2. Navigate to:
 
-   ```
-   bin/Debug/netX.X-windows/
-   ```
-3. Run:
-
-   ```
-   PokemonBattleSimulatorGUI.exe
-   ```
-
-⚠️ Make sure these folders/files are in the same directory:
-
-* Images/
-* BattleImages/
-* MenuImages/
-* SelectionImages/
-* intro.wav
 
 ---
 
-## 📂 Project Structure
+## 📚 Notes
 
-* `MainMenuForm` → Main menu (Play, Continue, Load, Rules)
-* `CharacterSelectionForm` → Choose your Pokémon
-* `BattleForm` → Core battle system
-* `BattleSystem` → Damage, type logic, critical hits
-* `GameManager` → Game state & level progression
-* `SaveManager` → Save/load system
-* `Pokemon` → Data model
-* `PokemonFactory` → Pokémon list generator
-
----
-
-## ⚠️ Requirements
-
-* Windows OS
-* .NET Desktop Runtime
-* Visual Studio (for development)
-
----
-
-## 🚀 Future Improvements
-
-* Animations for attacks
-* Better UI styling
-* More Pokémon and abilities
-* Sound effects for attacks
-* Difficulty scaling system
-
----
-
-## 📌 Notes
-
-This project is a student-built application for learning purposes and demonstrating GUI programming, object-oriented design, and game logic in C#.
+- This project was created for learning purposes (Compe-361 Final Project)
+- Focused on object-oriented design and UI development
 
 ---
 
 ## 👤 Author
 
-Luka Nergadze , Papuna Gorgodze
+Luka Nergadze, Papuna Gorgodze
