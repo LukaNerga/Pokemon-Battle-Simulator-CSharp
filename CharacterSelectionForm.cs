@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -44,14 +44,14 @@ namespace PokemonBattleSimulatorGUI
             listPokemon = new ListBox
             {
                 Size = new Size(250, 250),
-                Location = new Point(80, 100),
+                Location = new Point(100, 120),
                 Font = new Font("Arial", 12)
             };
 
             lblDetails = new Label
             {
                 Size = new Size(280, 100),
-                Location = new Point(400, 320),
+                Location = new Point(500, 320),
                 Font = new Font("Arial", 12),
                 BorderStyle = BorderStyle.FixedSingle,
                 BackColor = Color.White
@@ -60,7 +60,7 @@ namespace PokemonBattleSimulatorGUI
             picPokemon = new PictureBox
             {
                 Size = new Size(180, 180),
-                Location = new Point(470, 120),
+                Location = new Point(550, 120),
                 SizeMode = PictureBoxSizeMode.Zoom,
                 BorderStyle = BorderStyle.FixedSingle,
                 BackColor = Color.White
@@ -70,7 +70,7 @@ namespace PokemonBattleSimulatorGUI
             {
                 Text = "Start Battle",
                 Size = new Size(180, 45),
-                Location = new Point(300, 430),
+                Location = new Point(360, 440),
                 Font = new Font("Arial", 12, FontStyle.Bold)
             };
 
