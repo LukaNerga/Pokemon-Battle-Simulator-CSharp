@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace PokemonBattleSimulatorGUI
 {
@@ -28,15 +29,26 @@ namespace PokemonBattleSimulatorGUI
                    "\nAttack: " + Attack;
         }
 
-        // Required for IComparable
+        // Required for IComparable — sorts by Attack (Damage)
         public int CompareTo(Pokemon other)
         {
             if (other == null)
             {
                 return 1;
             }
-
             return this.Attack.CompareTo(other.Attack);
+        }
+
+        // Comparer for sorting by HP
+        public class ByHPComparer : IComparer<Pokemon>
+        {
+            public int Compare(Pokemon x, Pokemon y)
+            {
+                if (x == null && y == null) return 0;
+                if (x == null) return -1;
+                if (y == null) return 1;
+                return x.MaxHP.CompareTo(y.MaxHP);
+            }
         }
 
         public Pokemon Clone()
