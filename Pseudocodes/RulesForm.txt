@@ -1,1 +1,10 @@
+CLASS RulesForm
 
+WHEN form starts:
+    set window size and title
+
+    create text box for rules
+    make it read-only and scrollable
+    fill it with game instructions
+
+    add text box to screen
