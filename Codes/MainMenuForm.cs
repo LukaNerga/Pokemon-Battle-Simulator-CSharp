@@ -6,7 +6,6 @@ namespace PokemonBattleSimulatorGUI
 {
     public class MainMenuForm : Form
     {
-
         public MainMenuForm()
         {
             Text = "Pokemon Type Battle Simulator";
@@ -16,6 +15,7 @@ namespace PokemonBattleSimulatorGUI
             MaximizeBox = false;
             BackgroundImageLayout = ImageLayout.Stretch;
 
+            // Loads menu background, or uses color if image is missing.
             string bgPath = Path.Combine(Application.StartupPath, "MenuImages", "menu_bg.png");
 
             if (File.Exists(bgPath))
@@ -39,6 +39,7 @@ namespace PokemonBattleSimulatorGUI
                 BackColor = Color.FromArgb(180, Color.White)
             };
 
+            // Main menu buttons.
             Button btnPlay = CreateMenuButton("Play New", 180);
             Button btnContinue = CreateMenuButton("Continue", 250);
             Button btnLoad = CreateMenuButton("Load Game", 320);
@@ -61,6 +62,7 @@ namespace PokemonBattleSimulatorGUI
 
         private void BtnPlay_Click(object sender, System.EventArgs e)
         {
+            // Starts fresh game and opens pokemon selection.
             GameManager.StartNewGame();
             CharacterSelectionForm selectionForm = new CharacterSelectionForm();
             selectionForm.Show();
@@ -69,6 +71,7 @@ namespace PokemonBattleSimulatorGUI
 
         private void BtnContinue_Click(object sender, System.EventArgs e)
         {
+            // Continues last saved game if it exists.
             if (SaveManager.ContinueLastSave())
             {
                 BattleForm battleForm = new BattleForm();
@@ -100,15 +103,14 @@ namespace PokemonBattleSimulatorGUI
 
         private Button CreateMenuButton(string text, int y)
         {
+            // Reusable button style for menu.
             Button button = new Button();
             button.Text = text;
             button.Size = new Size(220, 50);
             button.Location = new Point(340, y);
             button.Font = new Font("Arial", 12, FontStyle.Bold);
             button.BackColor = Color.White;
-
             return button;
         }
-
     }
 }
