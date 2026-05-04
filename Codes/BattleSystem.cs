@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PokemonBattleSimulatorGUI
 {
@@ -8,6 +8,7 @@ namespace PokemonBattleSimulatorGUI
 
         public static double GetTypeMultiplier(string attackType, string defendType)
         {
+            // Type advantage system.
             if (attackType == "Fire" && defendType == "Grass") return 1.5;
             if (attackType == "Grass" && defendType == "Water") return 1.5;
             if (attackType == "Water" && defendType == "Fire") return 1.5;
@@ -33,9 +34,9 @@ namespace PokemonBattleSimulatorGUI
             missed = false;
             critical = false;
 
+            // Damage depends on type, attack choice, and some random bonus.
             double multiplier = GetTypeMultiplier(attacker.Type, defender.Type);
             int bonus = random.Next(0, 4);
-
             double damageScale = 1.0;
             int missChance = 0;
 
@@ -55,7 +56,9 @@ namespace PokemonBattleSimulatorGUI
                 missChance = 35;
             }
 
+            // Checks if attack misses.
             int roll = random.Next(1, 101);
+
             if (roll <= missChance)
             {
                 missed = true;
@@ -63,7 +66,6 @@ namespace PokemonBattleSimulatorGUI
             }
 
             int damage = (int)(attacker.Attack * damageScale * multiplier) + bonus;
-
             bool isCritical = random.Next(1, 101) <= 15; // 15% chance
 
             if (isCritical)
@@ -72,11 +74,9 @@ namespace PokemonBattleSimulatorGUI
                 critical = true;
             }
 
-            if (damage < 1)
-                damage = 1;
+            if (damage < 1) damage = 1;
 
             return damage;
         }
-           
     }
 }
