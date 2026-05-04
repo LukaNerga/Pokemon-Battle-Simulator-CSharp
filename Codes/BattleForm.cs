@@ -28,7 +28,6 @@ namespace PokemonBattleSimulatorGUI
         private PictureBox picPlayer;
         private PictureBox picEnemy;
 
-
         public BattleForm()
         {
             if (GameManager.PlayerPokemon == null)
@@ -36,6 +35,7 @@ namespace PokemonBattleSimulatorGUI
                 throw new InvalidOperationException("Player Pokemon is not set.");
             }
 
+            // Gets player and enemy for current battle.
             player = GameManager.PlayerPokemon;
             player.CurrentHP = player.MaxHP;
             enemy = GameManager.GetEnemyForLevel(GameManager.CurrentLevel);
@@ -54,7 +54,6 @@ namespace PokemonBattleSimulatorGUI
                 BackgroundImage = Image.FromFile(bgPath);
                 BackgroundImageLayout = ImageLayout.Stretch;
             }
-
 
             Label lblTitle = new Label
             {
@@ -163,6 +162,7 @@ namespace PokemonBattleSimulatorGUI
                 Location = new Point(680, 530),
                 Font = new Font("Arial", 12, FontStyle.Bold)
             };
+
             btnBackMenu = new Button()
             {
                 Text = "Main Menu",
@@ -170,6 +170,7 @@ namespace PokemonBattleSimulatorGUI
                 Location = new Point(20, 20),
                 Font = new Font("Arial", 9, FontStyle.Bold)
             };
+
             btnBackSelection = new Button()
             {
                 Text = "Selection",
@@ -185,7 +186,7 @@ namespace PokemonBattleSimulatorGUI
                 Location = new Point(760, 20),
                 Font = new Font("Arial", 9, FontStyle.Bold)
             };
-            
+
             btnCheatWin = new Button()
             {
                 Text = "Cheat Win",
@@ -194,6 +195,7 @@ namespace PokemonBattleSimulatorGUI
                 Font = new Font("Arial", 9, FontStyle.Bold)
             };
 
+            // Connects buttons with their actions.
             btnLightAttack.Click += BtnLightAttack_Click;
             btnMediumAttack.Click += BtnMediumAttack_Click;
             btnHeavyAttack.Click += BtnHeavyAttack_Click;
@@ -234,9 +236,9 @@ namespace PokemonBattleSimulatorGUI
 
             try
             {
+                // Image names are based on pokemon names.
                 string playerFile = player.Name.ToLower() + ".png";
                 string enemyFile = enemy.Name.ToLower().Split(' ')[0] + ".png";
-
                 string playerPath = Path.Combine(Application.StartupPath, "Images", playerFile);
                 string enemyPath = Path.Combine(Application.StartupPath, "Images", enemyFile);
 
@@ -269,7 +271,6 @@ namespace PokemonBattleSimulatorGUI
             }
         }
 
-
         private async void BtnLightAttack_Click(object sender, EventArgs e)
         {
             await PlayerAttack("Light");
@@ -290,6 +291,7 @@ namespace PokemonBattleSimulatorGUI
             SaveManager.SaveManual();
             MessageBox.Show("Game saved.");
         }
+
         private void BtnBackMenu_Click(object sender, EventArgs e)
         {
             GameManager.StartNewGame();
@@ -315,10 +317,8 @@ namespace PokemonBattleSimulatorGUI
         {
             enemy.CurrentHP = 0;
             UpdateUI();
-
             AddLog("CHEAT USED: Enemy HP set to 0.");
             AddLog(enemy.Name + " fainted!");
-
             HandleWin();
         }
 
@@ -326,9 +326,9 @@ namespace PokemonBattleSimulatorGUI
         {
             SetAttackButtonsEnabled(false);
 
+            // Calculates player damage with miss and critical chance.
             bool playerMissed;
             bool playerCritical;
-
             int playerDamage = BattleSystem.CalculateAttackDamage(player, enemy, attackType, out playerMissed, out playerCritical);
             double playerMultiplier = BattleSystem.GetTypeMultiplier(player.Type, enemy.Type);
 
@@ -354,7 +354,6 @@ namespace PokemonBattleSimulatorGUI
                 AddLog("Critical hit!");
             }
 
-
             UpdateUI();
             LoadBattleImages();
 
@@ -367,7 +366,6 @@ namespace PokemonBattleSimulatorGUI
 
             AddLog(enemy.Name + " is preparing an attack...");
             await Task.Delay(2000);
-
             EnemyTurn();
         }
 
@@ -379,8 +377,8 @@ namespace PokemonBattleSimulatorGUI
                 return;
             }
 
+            // Heal can be used only one time in a battle.
             hasHealed = true;
-
             player.CurrentHP += 25;
 
             if (player.CurrentHP > player.MaxHP)
@@ -390,17 +388,17 @@ namespace PokemonBattleSimulatorGUI
 
             AddLog(player.Name + " healed for 25 HP!");
             UpdateUI();
-
             SetAttackButtonsEnabled(false);
             btnHeal.Enabled = false;
 
             AddLog(enemy.Name + " is preparing an attack...");
             await Task.Delay(2000);
-
             EnemyTurn();
         }
+
         private void EnemyTurn()
         {
+            // Enemy chooses random attack.
             string[] attackOptions = { "Light", "Medium", "Heavy" };
             Random rng = new Random();
             string enemyAttackType = attackOptions[rng.Next(attackOptions.Length)];
@@ -448,11 +446,11 @@ namespace PokemonBattleSimulatorGUI
         {
             SetAttackButtonsEnabled(false);
 
+            // Goes to next level, or result screen after final battle.
             if (GameManager.CurrentLevel < 4)
             {
                 GameManager.CurrentLevel++;
-                MessageBox.Show("You won this battle! HP restored. Moving to next level.");
-
+                MessageBox.Show("You won this battle! HP restored.\nMoving to next level.");
                 BattleForm nextBattle = new BattleForm();
                 nextBattle.Show();
                 Close();
@@ -468,7 +466,6 @@ namespace PokemonBattleSimulatorGUI
         private void HandleLose()
         {
             SetAttackButtonsEnabled(false);
-
             ResultForm resultForm = new ResultForm(false);
             resultForm.Show();
             Close();
@@ -476,9 +473,9 @@ namespace PokemonBattleSimulatorGUI
 
         private void UpdateUI()
         {
+            // Updates labels and HP bars after every action.
             lblPlayer.Text = player.GetInfo();
             lblEnemy.Text = enemy.GetInfo();
-
             playerBar.Value = Math.Max(0, Math.Min(player.CurrentHP, playerBar.Maximum));
             enemyBar.Value = Math.Max(0, Math.Min(enemy.CurrentHP, enemyBar.Maximum));
         }
