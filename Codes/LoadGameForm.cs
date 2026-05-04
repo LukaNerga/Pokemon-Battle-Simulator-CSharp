@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -28,6 +28,7 @@ namespace PokemonBattleSimulatorGUI
 
         private void BuildSlots()
         {
+            // Gets all saves and shows 3 slots.
             List<SaveData> saves = SaveManager.GetAllSaves();
 
             for (int i = 1; i <= 3; i++)
@@ -63,9 +64,7 @@ namespace PokemonBattleSimulatorGUI
                 }
                 else
                 {
-                    info.Text = save.PlayerPokemon.Name +
-                                " | HP: " + save.PlayerPokemon.CurrentHP + "/" + save.PlayerPokemon.MaxHP +
-                                " | Level: " + save.CurrentLevel;
+                    info.Text = save.PlayerPokemon.Name + " | HP: " + save.PlayerPokemon.CurrentHP + "/" + save.PlayerPokemon.MaxHP + " | Level: " + save.CurrentLevel;
                 }
 
                 Button btnLoad = new Button
@@ -77,6 +76,8 @@ namespace PokemonBattleSimulatorGUI
                 };
 
                 int slotNumber = i;
+
+                // Saves the slot number for this button.
                 btnLoad.Click += delegate
                 {
                     LoadSelectedSlot(slotNumber);
@@ -90,6 +91,7 @@ namespace PokemonBattleSimulatorGUI
 
         private void LoadSelectedSlot(int slotNumber)
         {
+            // Loads chosen save slot and opens battle.
             if (SaveManager.LoadFromSlot(slotNumber))
             {
                 BattleForm battleForm = new BattleForm();
