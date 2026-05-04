@@ -8,6 +8,7 @@ namespace PokemonBattleSimulatorGUI
         [STAThread]
         static void Main()
         {
+            // Starts Windows Forms app from main menu.
             ApplicationConfiguration.Initialize();
             Application.Run(new MainMenuForm());
         }
