@@ -45,6 +45,9 @@ Type Advantage:
 
 Have Fun!";
 
+            txtRules.SelectionStart = 0;
+            txtRules.SelectionLength = 0;
+
             Controls.Add(txtRules);
         }
     }
