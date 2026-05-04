@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PokemonBattleSimulatorGUI
 {
@@ -6,6 +6,7 @@ namespace PokemonBattleSimulatorGUI
     {
         public static List<Pokemon> GetAllPokemon()
         {
+            // Main list of pokemon player can choose from.
             return new List<Pokemon>
             {
                 new Pokemon("Charmander", 100, 20, "Fire"),
