@@ -61,7 +61,7 @@ namespace PokemonBattleSimulatorGUI
                 Text = GameManager.GetLevelName(GameManager.CurrentLevel),
                 Font = new Font("Arial", 18, FontStyle.Bold),
                 AutoSize = true,
-                Location = new Point(280, 20)
+                Location = new Point(400, 20)
             };
 
             picPlayer = new PictureBox
