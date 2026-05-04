@@ -13,6 +13,7 @@ namespace PokemonBattleSimulatorGUI
 
         public static void EnsureFolder()
         {
+            // Creates save folder if it does not exist.
             if (!Directory.Exists(SaveFolder))
             {
                 Directory.CreateDirectory(SaveFolder);
@@ -25,11 +26,11 @@ namespace PokemonBattleSimulatorGUI
             return Path.Combine(SaveFolder, "slot" + slot + ".json");
         }
 
-        // SIMPLE rotating save (1 -> 2 -> 3)
         public static void SaveManual()
         {
             EnsureFolder();
 
+            // Rotates saves, newest one always becomes slot 1.
             if (File.Exists(GetSlotPath(3)))
             {
                 File.Delete(GetSlotPath(3));
@@ -65,8 +66,8 @@ namespace PokemonBattleSimulatorGUI
             JsonSerializerOptions options = new JsonSerializerOptions();
             options.WriteIndented = true;
 
+            // Converts save data to json file.
             string json = JsonSerializer.Serialize(data, options);
-
             File.WriteAllText(GetSlotPath(slot), json);
             File.WriteAllText(LatestFile, slot.ToString());
         }
@@ -113,8 +114,8 @@ namespace PokemonBattleSimulatorGUI
             }
 
             string text = File.ReadAllText(LatestFile);
-
             int slot;
+
             if (!int.TryParse(text, out slot))
             {
                 return false;
@@ -134,6 +135,7 @@ namespace PokemonBattleSimulatorGUI
 
             try
             {
+                // Reads json and restores game state.
                 string json = File.ReadAllText(path);
                 SaveData data = JsonSerializer.Deserialize<SaveData>(json);
 
@@ -144,7 +146,6 @@ namespace PokemonBattleSimulatorGUI
 
                 GameManager.PlayerPokemon = data.PlayerPokemon;
                 GameManager.CurrentLevel = data.CurrentLevel;
-
                 File.WriteAllText(LatestFile, slot.ToString());
 
                 return true;
