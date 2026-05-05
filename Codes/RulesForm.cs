@@ -37,11 +37,16 @@ namespace PokemonBattleSimulatorGUI
 11. Load Game lets you use 3 save slots.
 12. Continue loads the last saved progress.
 
-Type Advantage:
-- Fire > Grass
-- Water > Fire
-- Grass > Water
-- Electric > Water
+Type Advanteage:
+Fire > Grass
+Water > Fire, Dragon
+Grass > Water
+Electric > Water
+Rock > Fire, Flying, Electric
+Flying > Grass, Fighting
+Fighting > Normal, Rock
+Ghost > Rock
+Dragon > Ghost
 
 Have Fun!";
 
